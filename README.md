@@ -2,8 +2,10 @@
 Easy JWT authentication for developing and testing.
 
 # How to use in your service
-1. Install the [Phoesion.DevJwt](http://..) NuGet package
-..
+1. Install the [Phoesion.DevJwt](https://www.nuget.org/packages/Phoesion.DevJwt) NuGet package
+``` sh
+dotnet add package Phoesion.DevJwt
+```
 
 2. Enable dev-jwt on your JWT authorization services
 ``` cs
@@ -26,7 +28,7 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 # Generate a jwt
 1. Install the dotnet tool
 ```sh
-dotnet tool install --global phoesion.devjwt
+dotnet tool install --global phoesion.devjwt.cli
 ```
 
 2. Generate token using
@@ -37,7 +39,8 @@ You can now use the token for your requests.
 
 
 # General Information
-The `AddDevJwt()` extension configures an `ISecurityTokenValidator` that validates the token.
-When supplying the `HostingEnvironment` to the extension, it checks that the handler is only added for `Development` and `Testing` environments.
+The `AddDevJwt()` extension configures an `ISecurityTokenValidator` that validates the token. 
+Using the `HostingEnvironment`, it checks that the handler is only added for `Development` and `Testing` environments.
+
 
 
