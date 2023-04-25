@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>P:\Phoesion\Certificates\sn_private.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>dotnet-devjwt</ToolCommandName>
+  </PropertyGroup>
+
+  <!-- Package info -->
+  <PropertyGroup>
+    <PackageProjectUrl>https://glow.phoesion.com</PackageProjectUrl>
+    <Description>Dotnet tool to generate tokens for Phoesion.DevJwt library</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <!-- Package References -->
+  <ItemGroup>
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+  </ItemGroup>
+
+  <!-- Reference -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Phoesion.DevJwt\Phoesion.DevJwt.csproj" />
+  </ItemGroup>
+
+  <!-- License & Icon -->
+  <ItemGroup>
+    <None Include="icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

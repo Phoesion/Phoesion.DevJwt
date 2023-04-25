@@ -1,0 +1,9 @@
+<Project>
+	<Import Project="version.props" />
+	
+	<PropertyGroup>
+		<AssemblyInformationVersion>$(Version)</AssemblyInformationVersion>
+	</PropertyGroup>
+	
+</Project>
+		

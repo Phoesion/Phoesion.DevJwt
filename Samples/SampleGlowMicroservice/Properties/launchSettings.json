@@ -1,0 +1,13 @@
+{
+    "profiles": {
+        "SampleGlowMicroservice": {
+            "commandName": "Project",
+            "commandLineArgs": "-QuantumSpace:Default"
+        },
+        "SampleGlowMicroservice (External Debugger)": {
+            "commandName": "Executable",
+            "executablePath": "Phoesion.Glow.Reactor.Debugger.exe",
+            "commandLineArgs": "-QuantumSpace:Default \"$(TargetPath)\""
+        }
+    }
+}
