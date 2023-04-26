@@ -1,6 +1,6 @@
 # Phoesion.DevJwt
 Library and dotnet-tool for developing and testing web api services with JWT authorization.
-Create custom tokens that can be used localy, without an external Identity.
+Create custom tokens that can be used localy, without an external authority.
 
 
 # How to use in your service
@@ -49,7 +49,7 @@ Using the `HostingEnvironment`, it checks that the handler is only added for `De
 # Samples
 The repository contains the following samples projects in the `Samples` folder :
 - **SampleWebApi** : an ASP.Net core web api application
-- **GlowMicroserviceApi** : a [Phoesion Glow](https://glow.phoesion.com) microservice
+- **SampleGlowMicroservice** : a [Phoesion Glow](https://glow.phoesion.com) microservice
 - **TokenGeneratorSample** : a console application that demononstrates how to generate token programmatically
 
 
