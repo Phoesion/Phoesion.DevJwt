@@ -17,7 +17,7 @@ namespace SampleWebApi
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                            .AddJwtBearer(o => o.UseDevJwt(builder.Environment)); //<-- enables dev-jwt (by default only for Development/Testing environments)
+                            .AddJwtBearer(o => o.UseDevJwt(builder.Environment)); //<-- enables dev-jwt (only for Development/Testing environments)
 
 
             var app = builder.Build();

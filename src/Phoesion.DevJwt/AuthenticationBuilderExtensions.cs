@@ -20,13 +20,13 @@ namespace Microsoft.Extensions.DependencyInjection
             => authenticationBuilder.AddScheme<DevJwtOptions, AuthenticationHandler>(authSheme, options);
 
 
-        public static void UseDevJwt(this Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions options, IHostEnvironment env, string key = null, string[] allowed_environments = null)
+        public static bool UseDevJwt(this Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions options, IHostEnvironment env, string key = null, string[] allowed_environments = null)
         {
             //check if valid environment
             if (allowed_environments != null && !allowed_environments.Contains(env.EnvironmentName))
-                return;
+                return false;
             else if (!(env.IsDevelopment() || env.EnvironmentName == "Testing"))
-                return;
+                return false;
 
             //add custom validator
             options.SecurityTokenValidators.Insert(0, new TokenValidator(key));
@@ -38,6 +38,9 @@ namespace Microsoft.Extensions.DependencyInjection
             issuers.Add("phoesion.devjwt");
             options.TokenValidationParameters.ValidIssuer = null;
             options.TokenValidationParameters.ValidIssuers = issuers;
+
+            //inform that validator has been applied!
+            return true;
         }
     }
 }
