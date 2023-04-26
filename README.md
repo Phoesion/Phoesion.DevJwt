@@ -9,7 +9,7 @@ Create custom tokens that can be used localy, without an external authority.
 dotnet add package Phoesion.DevJwt
 ```
 
-2. Enable dev-jwt on your JWT authorization services
+2. Enable dev-jwt on your JWT authorization services using the `UseDevJwt()` extension
 ``` cs
 services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(o => o.UseDevJwt(builder.Environment));
@@ -53,16 +53,16 @@ The repository contains the following samples projects in the `Samples` folder :
 - **TokenGeneratorSample** : a console application that demononstrates how to generate token programmatically
 
 
-# custom Signing Keys
-By default, the generator and validator use a well known predefined key for signing the token.
-This way you don't need to care about where/how the token was generated it will pass validation, which is fine since it's for local development and testing.
+# Custom signing key
+By default, the generator and validator use a predefined key for signing/veryfing the token.
+This way it will pass validation and you don't need to care about where/how the token was generated _(doesn't use UserSecrets store)_, which is fine since it's for local development and testing.
 
 You can however generate/validate tokens using a custom key like so :
 - In the tool specify a key to be used for signing the token using the `--signkey` parameter :
 ```
 dotnet devjwt create myApi --email user@mail.com --sub 42 --signkey thiskeyisverylargetobreak
 ```
--In the service authentication setup, provide the key to the `UseDevJwt()` function
+- In the service authentication setup, provide the key to the `UseDevJwt()` function
 ```cs
 services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(o => o.UseDevJwt(builder.Environment, "thiskeyisverylargetobreak"));
