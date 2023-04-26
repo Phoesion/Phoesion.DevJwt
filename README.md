@@ -12,7 +12,7 @@ dotnet add package Phoesion.DevJwt
 2. Enable dev-jwt on your JWT authorization services
 ``` cs
 services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(o => o.AddDevJwt(builder.Environment));
+        .AddJwtBearer(o => o.UseDevJwt(builder.Environment));
 ```
 
 3. Configure in `appsetting.Development.json`
@@ -42,7 +42,7 @@ You can now use the token for your requests.
 
 
 # General Information
-The `AddDevJwt()` extension configures an `ISecurityTokenValidator` that validates the token. 
+The `UseDevJwt()` extension configures an `ISecurityTokenValidator` that validates the token. 
 Using the `HostingEnvironment`, it checks that the handler is only added for `Development` and `Testing` environments.
 
 
@@ -51,6 +51,22 @@ The repository contains the following samples projects in the `Samples` folder :
 - **SampleWebApi** : an ASP.Net core web api application
 - **SampleGlowMicroservice** : a [Phoesion Glow](https://glow.phoesion.com) microservice
 - **TokenGeneratorSample** : a console application that demononstrates how to generate token programmatically
+
+
+# custom Signing Keys
+By default, the generator and validator use a well known predefined key for signing the token.
+This way you don't need to care about where/how the token was generated it will pass validation, which is fine since it's for local development and testing.
+
+You can however generate/validate tokens using a custom key like so :
+- In the tool specify a key to be used for signing the token using the `--signkey` parameter :
+```
+dotnet devjwt create myApi --email user@mail.com --sub 42 --signkey thiskeyisverylargetobreak
+```
+-In the service authentication setup, provide the key to the `UseDevJwt()` function
+```cs
+services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(o => o.UseDevJwt(builder.Environment, "thiskeyisverylargetobreak"));
+```
 
 
 

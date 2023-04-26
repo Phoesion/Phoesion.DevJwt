@@ -20,7 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
             => authenticationBuilder.AddScheme<DevJwtOptions, AuthenticationHandler>(authSheme, options);
 
 
-        public static void AddDevJwt(this Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions options, IHostEnvironment env, string key = null, string[] allowed_environments = null)
+        public static void UseDevJwt(this Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions options, IHostEnvironment env, string key = null, string[] allowed_environments = null)
         {
             //check if valid environment
             if (allowed_environments != null && !allowed_environments.Contains(env.EnvironmentName))
