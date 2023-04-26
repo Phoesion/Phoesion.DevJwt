@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Hosting.Internal;
 
 namespace SampleWebApi
 {
@@ -16,7 +17,8 @@ namespace SampleWebApi
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                            .AddJwtBearer(o => o.AddDevJwt(builder.Environment)); //<-- enable dev-jwt (by default only for Development/Testing environments)
+                            .AddJwtBearer(o => o.AddDevJwt(builder.Environment)); //<-- enables dev-jwt (by default only for Development/Testing environments)
+
 
             var app = builder.Build();
 

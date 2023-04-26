@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using Phoesion.Glow.SDK;
 using Phoesion.Glow.SDK.Authorization;
 using Phoesion.Glow.SDK.Firefly;
@@ -19,7 +20,7 @@ namespace SampleGlowMicroservice.Modules
 
         //Notes: test using url http://localhost/SampleService1/SampleModule1/ClaimsViewer
         [Action(Methods.GET)]
-        public Dictionary<string, string> ClaimsViewer(string input)
-            => Context.User.Claims.ToDictionary(c => c.Type, c => c.Value);
+        public List<string> ClaimsViewer()
+            => Context.User.Claims.Select(c => $"{c.Type} : {c.Value}").ToList();
     }
 }

@@ -10,7 +10,7 @@ namespace SampleWebApi.Controllers
     public class ClaimsViewerController : ControllerBase
     {
         [HttpGet]
-        public Dictionary<string, string> Get()
-            => HttpContext.User.Claims.ToDictionary(c => c.Type, c => c.Value);
+        public List<string> Get()
+            => HttpContext.User.Claims.Select(c => $"{c.Type} : {c.Value}").ToList();
     }
 }

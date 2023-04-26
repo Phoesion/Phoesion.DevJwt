@@ -30,6 +30,14 @@ namespace Microsoft.Extensions.DependencyInjection
 
             //add custom validator
             options.SecurityTokenValidators.Insert(0, new TokenValidator(key));
+
+            //add valid issuers
+            var issuers = options.TokenValidationParameters.ValidIssuers?.ToHashSet() ?? new();
+            if (!string.IsNullOrWhiteSpace(options.TokenValidationParameters.ValidIssuer))
+                issuers.Add(options.TokenValidationParameters.ValidIssuer);
+            issuers.Add("phoesion.devjwt");
+            options.TokenValidationParameters.ValidIssuer = null;
+            options.TokenValidationParameters.ValidIssuers = issuers;
         }
     }
 }

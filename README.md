@@ -49,7 +49,7 @@ Using the `HostingEnvironment`, it checks that the handler is only added for `De
 # Samples
 The repository contains the following samples projects in the `Samples` folder :
 - **SampleWebApi** : an ASP.Net core web api application
-- **GlowMicroservicebApi** : a [Phoesion Glow](https://glow.phoesion.com) microservice
+- **GlowMicroserviceApi** : a [Phoesion Glow](https://glow.phoesion.com) microservice
 - **TokenGeneratorSample** : a console application that demononstrates how to generate token programmatically
 
 
