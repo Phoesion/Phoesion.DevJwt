@@ -28,7 +28,7 @@ namespace Phoesion.DevJwt
         public TokenValidator(string key)
         {
             this.jwtTokenHandler = new JwtSecurityTokenHandler();
-            this.key = DevJwtDefaults.DefaultSigningSecurityKey ?? new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+            this.key = DevJwtDefaults.DefaultSigningSecurityKey ?? new SymmetricSecurityKey(TokenGenerator.GetSigningKeyBufferFromString(key));
         }
 
         public bool CanReadToken(string securityToken) => jwtTokenHandler.CanReadToken(securityToken);

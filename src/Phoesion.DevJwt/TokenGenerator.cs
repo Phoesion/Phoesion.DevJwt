@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace Phoesion.DevJwt
 {
@@ -26,80 +26,89 @@ namespace Phoesion.DevJwt
             return builder;
         }
 
-        public class TokenGeneratorBuilder
+        public static byte[] GetSigningKeyBufferFromString(string key)
         {
-            public readonly List<Claim> Claims = new List<Claim>();
+            if (key.Length >= 16)
+                return Encoding.UTF8.GetBytes(key);
+            else
+                using (var sha = new SHA256Managed())
+                    return sha.ComputeHash(Encoding.UTF8.GetBytes(key));
+        }
+    }
 
-            TimeSpan? _expire_time;
-            string _audience;
-            string _signingkey;
+    public class TokenGeneratorBuilder
+    {
+        public readonly List<Claim> Claims = new List<Claim>();
 
-            public TokenGeneratorBuilder()
-            {
-                //generate token id
-                Claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
-            }
+        TimeSpan? _expire_time;
+        string _audience;
+        string _signingkey;
 
-            public TokenGeneratorBuilder AddClaim(string type, string value)
-            {
-                Claims.Add(new Claim(type, value));
-                return this;
-            }
+        public TokenGeneratorBuilder()
+        {
+            //generate token id
+            Claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+        }
 
-            public TokenGeneratorBuilder WithAudience(string audience)
-            {
-                this._audience = audience;
-                return this;
-            }
+        public TokenGeneratorBuilder AddClaim(string type, string value)
+        {
+            Claims.Add(new Claim(type, value));
+            return this;
+        }
 
-            public TokenGeneratorBuilder AddScope(string value)
-                => this.AddClaim("scope", value);
+        public TokenGeneratorBuilder WithAudience(string audience)
+        {
+            this._audience = audience;
+            return this;
+        }
 
-            public TokenGeneratorBuilder AddAudience(string audience)
-                => this.AddClaim(JwtRegisteredClaimNames.Aud, audience);
+        public TokenGeneratorBuilder AddScope(string value)
+            => this.AddClaim("scope", value);
 
-            public TokenGeneratorBuilder AddRole(string role)
-                => this.AddClaim("role", role);
+        public TokenGeneratorBuilder AddAudience(string audience)
+            => this.AddClaim(JwtRegisteredClaimNames.Aud, audience);
 
-            public TokenGeneratorBuilder AddClaimEmail(string value, string type = JwtRegisteredClaimNames.Email)
-                => this.AddClaim(type, value);
+        public TokenGeneratorBuilder AddRole(string role)
+            => this.AddClaim("role", role);
 
-            public TokenGeneratorBuilder AddClaimSubject(string value, string type = JwtRegisteredClaimNames.Sub)
-                => this.AddClaim(type, value);
+        public TokenGeneratorBuilder AddClaimEmail(string value, string type = JwtRegisteredClaimNames.Email)
+            => this.AddClaim(type, value);
+
+        public TokenGeneratorBuilder AddClaimSubject(string value, string type = JwtRegisteredClaimNames.Sub)
+            => this.AddClaim(type, value);
 
 
-            public TokenGeneratorBuilder ExpiresIn(TimeSpan? time)
-            {
-                _expire_time = time;
-                return this;
-            }
+        public TokenGeneratorBuilder ExpiresIn(TimeSpan? time)
+        {
+            _expire_time = time;
+            return this;
+        }
 
-            public TokenGeneratorBuilder WithSigningKey(string key)
-            {
-                this._signingkey = key;
-                return this;
-            }
+        public TokenGeneratorBuilder WithSigningKey(string key)
+        {
+            this._signingkey = key;
+            return this;
+        }
 
-            public string Build()
-            {
-                //setup SigningCredentials
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_signingkey ?? DevJwtDefaults.DefaultSigningKey));
-                var _credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        public string Build()
+        {
+            //setup SigningCredentials
+            var key = new SymmetricSecurityKey(TokenGenerator.GetSigningKeyBufferFromString(_signingkey ?? DevJwtDefaults.DefaultSigningKey));
+            var _credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-                //create security token
-                var token = new JwtSecurityToken(issuer: DevJwtDefaults.Issuer,
-                                                 audience: _audience,
-                                                 claims: Claims,
-                                                 expires: DateTime.UtcNow + (_expire_time ?? TimeSpan.FromDays(365)),
-                                                 signingCredentials: _credentials
-                                                );
+            //create security token
+            var token = new JwtSecurityToken(issuer: DevJwtDefaults.Issuer,
+                                             audience: _audience,
+                                             claims: Claims,
+                                             expires: DateTime.UtcNow + (_expire_time ?? TimeSpan.FromDays(365)),
+                                             signingCredentials: _credentials
+                                            );
 
-                //sign and serialize token to string
-                var strToken = new JwtSecurityTokenHandler().WriteToken(token);
+            //sign and serialize token to string
+            var strToken = new JwtSecurityTokenHandler().WriteToken(token);
 
-                //return token string
-                return strToken;
-            }
+            //return token string
+            return strToken;
         }
     }
 }
