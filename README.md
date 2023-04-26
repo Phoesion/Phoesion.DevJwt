@@ -4,7 +4,7 @@ Create custom tokens that can be used localy, without an external authority.
 
 
 # How to use in your service
-1. Install the [![Phoesion.DevJwt](https://img.shields.io/nuget/v/Phoesion.DevJwt?color=0481ff&label=Phoesion.DevJwt&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Phoesion.DevJwt) NuGet package
+1. Add the [![Phoesion.DevJwt](https://img.shields.io/nuget/v/Phoesion.DevJwt?color=0481ff&label=Phoesion.DevJwt&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Phoesion.DevJwt) NuGet package to your web API project 
 ``` sh
 dotnet add package Phoesion.DevJwt
 ```
