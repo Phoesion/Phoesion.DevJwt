@@ -58,6 +58,9 @@ namespace Phoesion.DevJwt
             public TokenGeneratorBuilder AddAudience(string audience)
                 => this.AddClaim(JwtRegisteredClaimNames.Aud, audience);
 
+            public TokenGeneratorBuilder AddRole(string role)
+                => this.AddClaim("role", role);
+
             public TokenGeneratorBuilder AddClaimEmail(string value, string type = JwtRegisteredClaimNames.Email)
                 => this.AddClaim(type, value);
 
