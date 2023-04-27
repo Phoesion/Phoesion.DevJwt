@@ -76,11 +76,11 @@ string email = "john.doe@example.com";
 string audience = "myApi";
 
 var token = TokenGenerator.Create(audience, email, userId)
-						  .AddScope("openid", "profile")
-						  .AddRole("admin")
-						  .AddClaim("username", "johndoe")
-						  .ExpiresIn(TimeSpan.FromDays(365))
-						  .Build();
+                          .AddScope("openid", "profile")
+                          .AddRole("admin")
+                          .AddClaim("username", "johndoe")
+                          .ExpiresIn(TimeSpan.FromDays(365))
+                          .Build();
 ```
 
 
