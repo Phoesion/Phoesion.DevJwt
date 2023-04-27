@@ -13,11 +13,10 @@ namespace SampleWebApi
             builder.Services.AddControllers();
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                            .AddJwtBearer();
+                            .AddJwtBearer(o => o.UseDevJwt(builder.Environment)); //<-- enables dev-jwt (only for Development/Testing environments)
 
 
             var app = builder.Build();
-
 
             app.UseHttpsRedirection();
 

@@ -4,30 +4,7 @@ Create custom tokens that can be used localy, without an external authority.
 
 
 # How to use in your service
-1. Add the [![Phoesion.DevJwt](https://img.shields.io/nuget/v/Phoesion.DevJwt?color=0481ff&label=Phoesion.DevJwt&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Phoesion.DevJwt) NuGet package to your web API project 
-``` sh
-dotnet add package Phoesion.DevJwt
-```
 
-2. Enable dev-jwt on your JWT authorization services using the `UseDevJwt()` extension
-``` cs
-services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(o => o.UseDevJwt(builder.Environment));
-```
-
-3. Configure in `appsetting.Development.json`
-``` json
-"Authentication": {
-   "Schemes": {
-      "Bearer": {
-         "ValidAudience": "myApi",
-         "ValidIssuer": "phoesion.devjwt"
-      }
-   }
-}
-```
-
-# Generate a jwt
 1. Install the dotnet tool
 ```sh
 dotnet tool install --global phoesion.devjwt.cli
@@ -38,17 +15,36 @@ dotnet tool install --global phoesion.devjwt.cli
 dotnet devjwt create myApi --email user@mail.com --sub 42
 ```
 ![console screenshot](media/console_token_generated.png?raw=true "Console output")
-You can now use the token for your requests.
 
+3. Configure in `appsetting.Development.json`
+``` json
+"Authentication": {
+   "Schemes": {
+      "Bearer": {
+         "ValidAudience": "myApi",
+         "ValidIssuer": "phoesion.devjwt",
+         "SigningKeys": [
+          {
+             "Issuer": "phoesion.devjwt",
+             "Value": "c29tZV9kZWZhdWx0X2tleV9mb3JfZGV2cw=="
+          }
+         ]
+      }
+   }
+}
+```
 
-# General Information
-The `UseDevJwt()` extension configures an `ISecurityTokenValidator` that validates the token. 
-Using the `HostingEnvironment`, it checks that the handler is only added for `Development` and `Testing` environments.
+4. You can now use the token for your requests.
+```
+curl -i -H "Authorization: Bearer {token}" https://localhost:{port}/secret
+```
+![postman screenshot](media/postman_result.png?raw=true "Console output")
 
 
 # Samples
 The repository contains the following samples projects in the `Samples` folder :
-- **SampleWebApi** : an ASP.Net core web api application
+- **SampleWebApi** : an ASP.Net core web api application _(net7.0 and above)_
+- **SampleWebApi_Older** : an ASP.Net core web api application _(net6.0 and net5.0)_
 - **SampleGlowMicroservice** : a [Phoesion Glow](https://glow.phoesion.com) microservice
 - **TokenGeneratorSample** : a console application that demononstrates how to generate token programmatically
 
@@ -62,14 +58,37 @@ You can however generate/validate tokens using a custom key like so :
 ```
 dotnet devjwt create myApi --email user@mail.com --sub 42 --signkey thiskeyisverylargetobreak
 ```
-- In the service authentication setup, provide the key to the `UseDevJwt()` function
-```cs
-services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(o => o.UseDevJwt(builder.Environment, "thiskeyisverylargetobreak"));
+- Encode the key in base64 format _(so you can add it in your `appsettings.Development.json`)_
+```
+dotnet devjwt encode-key thiskeyisverylargetobreak
+```
+- Add the key in your `appsettings.Development.json`
+```json
+"Authentication": {
+   "Schemes": {
+      "Bearer": {
+         "ValidAudience": "myApi",
+         "ValidIssuer": "phoesion.devjwt"
+         "SigningKeys": [
+          {
+             "Issuer": "phoesion.devjwt",
+             "Value": "dGhpc2tleWlzdmVyeWxhcmdldG9icmVhaw==" // <-- Set your new encoded key here
+          }
+         ]
+      }
+   }
+}
 ```
 
 # General tokens programmatically
-You can generate tokens programmatically using the `TokenGenerator` :
+You can also generate tokens programmatically using the `TokenGenerator`
+
+1. Add the [![Phoesion.DevJwt](https://img.shields.io/nuget/v/Phoesion.DevJwt?color=0481ff&label=Phoesion.DevJwt&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Phoesion.DevJwt) NuGet package to your project 
+``` sh
+dotnet add package Phoesion.DevJwt
+```
+
+2. Use to `TokenGenerator`
 ```cs 
 string userId = new Guid().ToString();
 string email = "john.doe@example.com";
@@ -83,5 +102,30 @@ var token = TokenGenerator.Create(audience, email, userId)
                           .Build();
 ```
 
+
+# How to use in net6.0 and net5.0 projects
+1. Add the [![Phoesion.DevJwt](https://img.shields.io/nuget/v/Phoesion.DevJwt?color=0481ff&label=Phoesion.DevJwt&logo=nuget&style=flat-square)](https://www.nuget.org/packages/Phoesion.DevJwt) NuGet package to your web API project 
+``` sh
+dotnet add package Phoesion.DevJwt
+```
+
+2. Enable dev-jwt on your JWT authorization services using the `UseDevJwt()` extension
+``` cs
+services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(o => o.UseDevJwt(builder.Environment));
+```
+_Notes : i only enables for 'Development' and 'Testing' environments_
+
+3. Configure in `appsetting.Development.json`
+``` json
+"Authentication": {
+   "Schemes": {
+      "Bearer": {
+         "ValidAudience": "myApi",
+         "ValidIssuer": "phoesion.devjwt"
+      }
+   }
+}
+```
 
 

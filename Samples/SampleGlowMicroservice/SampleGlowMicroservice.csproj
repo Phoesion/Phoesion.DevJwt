@@ -17,8 +17,4 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Phoesion.DevJwt\Phoesion.DevJwt.csproj" />
-  </ItemGroup>
-
 </Project>

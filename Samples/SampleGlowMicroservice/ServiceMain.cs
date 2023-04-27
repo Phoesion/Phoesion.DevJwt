@@ -18,7 +18,7 @@ namespace SampleGlowMicroservice
 
             // Add and configure authentication services
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(o => o.UseDevJwt(HostingEnvironment)); //<-- enables dev-jwt (only for Development/Testing environments)
+                    .AddJwtBearer();
         }
 
         protected override void Configure(IGlowApplicationBuilder app)
