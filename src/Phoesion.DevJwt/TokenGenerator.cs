@@ -6,17 +6,30 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Phoesion.DevJwt
 {
+    /// <summary>
+    /// Utility for generating tokens programmatically
+    /// </summary>
     public static class TokenGenerator
     {
+        /// <summary>
+        /// Create a new token with a specified audience claim
+        /// </summary>
         public static TokenGeneratorBuilder Create(string audience)
             => Create(audience, null, null);
 
+        /// <summary>
+        /// Create a new token with a specified audience and email claims
+        /// </summary>
         public static TokenGeneratorBuilder Create(string audience, string email)
             => Create(audience, email, null);
 
+        /// <summary>
+        /// Create a new token with a specified audience, email and userid claims
+        /// </summary>
         public static TokenGeneratorBuilder Create(string audience, string email, string userid)
         {
             var builder = new TokenGeneratorBuilder();
@@ -26,7 +39,7 @@ namespace Phoesion.DevJwt
             return builder;
         }
 
-        public static byte[] GetSigningKeyBufferFromString(string key)
+        internal static byte[] GetSigningKeyBufferFromString(string key)
         {
             if (key.Length >= 16)
                 return Encoding.UTF8.GetBytes(key);
@@ -62,8 +75,15 @@ namespace Phoesion.DevJwt
             return this;
         }
 
-        public TokenGeneratorBuilder AddScope(string value)
-            => this.AddClaim("scope", value);
+        public TokenGeneratorBuilder AddScope(string scope)
+            => this.AddClaim("scope", scope);
+
+        public TokenGeneratorBuilder AddScope(params string[] scopes)
+        {
+            foreach (var scope in scopes)
+                this.AddScope(scope);
+            return this;
+        }
 
         public TokenGeneratorBuilder AddAudience(string audience)
             => this.AddClaim(JwtRegisteredClaimNames.Aud, audience);

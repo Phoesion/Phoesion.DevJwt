@@ -5,6 +5,7 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>P:\Phoesion\Certificates\sn_private.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!-- Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <!-- Build symbol package (.snupkg) to distribute the PDB containing Source Link -->

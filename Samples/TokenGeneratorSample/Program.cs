@@ -7,12 +7,15 @@ namespace TokenGeneratorSample
         static void Main(string[] args)
         {
             //parameters
-            string username = "johnDoe";
+            string userId = new Guid().ToString();
             string email = "john.doe@example.com";
             string audience = "myApi";
 
             //generate
-            var token = TokenGenerator.Create(audience, email, username)
+            var token = TokenGenerator.Create(audience, email, userId)
+                                      .AddScope("openid", "profile")
+                                      .AddRole("admin")
+                                      .AddClaim("username", "johndoe")
                                       .ExpiresIn(TimeSpan.FromDays(365))
                                       .Build();
 

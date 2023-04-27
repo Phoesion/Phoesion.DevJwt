@@ -19,7 +19,14 @@ namespace Microsoft.Extensions.DependencyInjection
         public static AuthenticationBuilder AddDevJwt(this AuthenticationBuilder authenticationBuilder, string authSheme, Action<DevJwtOptions> options)
             => authenticationBuilder.AddScheme<DevJwtOptions, AuthenticationHandler>(authSheme, options);
 
-
+        /// <summary>
+        /// Enable the DevJwt validator. By default it only enables for 'Development' and 'Testing' environments
+        /// </summary>
+        /// <param name="options">The JwtBearerOptions to modify</param>
+        /// <param name="env">the hosting environment to be used for checking if DevJwt will be enabled</param>
+        /// <param name="key">Specify a custom key for checking key signature</param>
+        /// <param name="allowed_environments">Environment names to allow the DevJwt to be enabled</param>
+        /// <returns>True if the DevJwt validator has been added. False if no changes have been made</returns>
         public static bool UseDevJwt(this Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions options, IHostEnvironment env, string key = null, string[] allowed_environments = null)
         {
             //check if valid environment

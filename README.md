@@ -68,5 +68,20 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(o => o.UseDevJwt(builder.Environment, "thiskeyisverylargetobreak"));
 ```
 
+# General tokens programmatically
+You can generate tokens programmatically using the `TokenGenerator` :
+```cs 
+string userId = new Guid().ToString();
+string email = "john.doe@example.com";
+string audience = "myApi";
+
+var token = TokenGenerator.Create(audience, email, userId)
+						  .AddScope("openid", "profile")
+						  .AddRole("admin")
+						  .AddClaim("username", "johndoe")
+						  .ExpiresIn(TimeSpan.FromDays(365))
+						  .Build();
+```
+
 
 
