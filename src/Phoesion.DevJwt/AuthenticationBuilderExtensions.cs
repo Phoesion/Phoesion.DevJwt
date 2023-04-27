@@ -38,6 +38,10 @@ namespace Microsoft.Extensions.DependencyInjection
             else if (!(env.IsDevelopment() || env.EnvironmentName == "Testing"))
                 return false;
 
+            //do not allow production environment without at-least a custom key!
+            if (env.IsProduction() && string.IsNullOrWhiteSpace(signkey))
+                throw new Exception("UseDevJwt() cannot be used in Production environment without a custom signing key!");
+
             //add custom validator
             options.SecurityTokenValidators.Insert(0, new TokenValidator(signkey));
 
