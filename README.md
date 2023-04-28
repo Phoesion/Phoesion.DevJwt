@@ -12,7 +12,7 @@ dotnet tool install --global phoesion.devjwt.cli
 
 2. Generate token using
 ```sh
-dotnet devjwt create myApi --email user@mail.com --sub 42
+dotnet devjwt create myApi --email user@mail.com
 ```
 ![console screenshot](media/console_token_generated.png?raw=true "Console output")
 
