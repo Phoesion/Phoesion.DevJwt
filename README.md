@@ -26,7 +26,7 @@ dotnet devjwt create myApi --email user@mail.com
          "SigningKeys": [
           {
              "Issuer": "phoesion.devjwt",
-             "Value": "c29tZV9kZWZhdWx0X2tleV9mb3JfZGV2cw=="
+             "Value": "c29tZV9kZWZhdWx0X2tleV9mb3JfZGV2c18yNTZiaXQ="
           }
          ]
       }

@@ -98,8 +98,8 @@ internal class Program
                         token.WithSigningKey(o.SigningKey.Trim());
 
                     //build and write token
-                    Console.WriteLine(token.Build());
-
+                    try { Console.WriteLine(token.Build()); }
+                    catch (Exception ex) { Console.WriteLine("*** ERROR : " + ex.Message); }
                 });
         }
 

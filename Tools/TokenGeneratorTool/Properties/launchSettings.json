@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Phoesion.DevJwt.CLI (create myAPi)": {
+      "commandName": "Project",
+      "commandLineArgs": "create myApi"
+    },
+  }
+}

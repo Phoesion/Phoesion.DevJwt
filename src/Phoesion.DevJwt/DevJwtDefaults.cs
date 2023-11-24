@@ -14,9 +14,9 @@ namespace Phoesion.DevJwt
 
         public const string Issuer = "phoesion.devjwt";
 
-        public const string DefaultSigningKey = "some_default_key_for_devs";
+        public const string DefaultSigningKey = "some_default_key_for_devs_256bit";
 
-        public readonly static SecurityKey DefaultSigningSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(DefaultSigningKey));
+        public readonly static SecurityKey DefaultSigningSecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(DefaultSigningKey));
 
     }
 }
