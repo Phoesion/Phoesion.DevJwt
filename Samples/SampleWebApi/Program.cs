@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Hosting.Internal;
+using Microsoft.IdentityModel.Tokens;
 
 namespace SampleWebApi
 {
