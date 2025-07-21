@@ -20,6 +20,7 @@ internal class Program
         {
             var audienceArgument = new CliArgument<string>(name: "aud") { Description = "The 'aud' (audience) claim for the token." };
 
+            var issuerOption = new CliOption<string>(name: "--issuer") { Description = "Add claim for issuer (iss) type." };
             var subOption = new CliOption<string>(name: "--sub") { Description = "Add claim for 'sub' (subject) type." };
             var emailOption = new CliOption<string>(name: "--email") { Description = "Add claim for 'sub' (subject) type." };
             var scopeOption = new CliOption<string[]>(name: "--scope") { Description = "Add 'scope' claim.", AllowMultipleArgumentsPerToken = true };
@@ -33,6 +34,7 @@ internal class Program
             {
                 audienceArgument,
 
+                issuerOption,
                 subOption,
                 emailOption,
                 scopeOption,
@@ -53,6 +55,7 @@ internal class Program
                     //setup token
                     if (!string.IsNullOrEmpty(o.Subject)) token.AddClaimSubject(o.Subject);
                     if (!string.IsNullOrEmpty(o.Email)) token.AddClaimEmail(o.Email);
+                    if (!string.IsNullOrEmpty(o.Issuer)) token.AddClaimIssuer(o.Issuer);
 
                     //add scopes
                     if (o.Scopes != null && o.Scopes.Length > 0)
@@ -134,6 +137,7 @@ internal class Program
     {
         public string Audience { get; set; }
 
+        public string Issuer { get; set; }
         public string Subject { get; set; }
         public string Email { get; set; }
         public string[] Scopes { get; set; }
@@ -143,8 +147,9 @@ internal class Program
         public string[] ExtraAudience { get; set; }
         public string SigningKey { get; set; }
 
-        public TokenGenOptions(string aud, string sub, string email, string[] scope, string[] role, string[] claim, int duration, string[] audience, string signkey)
+        public TokenGenOptions(string issuer, string aud, string sub, string email, string[] scope, string[] role, string[] claim, int duration, string[] audience, string signkey)
         {
+            this.Issuer = issuer;
             this.Audience = aud;
             this.Subject = sub;
             this.Email = email;

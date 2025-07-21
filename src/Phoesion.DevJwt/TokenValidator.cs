@@ -43,7 +43,7 @@ namespace Phoesion.DevJwt
                                     ValidateIssuer = validationParameters.ValidateIssuer,
                                     ValidateLifetime = validationParameters.ValidateLifetime,
                                     IssuerSigningKey = validationParameters.IssuerSigningKey ?? key,
-                                    ValidIssuer = DevJwtDefaults.Issuer,
+                                    ValidIssuer = validationParameters.ValidIssuer ?? DevJwtDefaults.Issuer,
                                     ValidAudience = validationParameters.ValidAudience,
                                     ValidAudiences = validationParameters.ValidAudiences,
                                 },

@@ -91,6 +91,9 @@ namespace Phoesion.DevJwt
         public TokenGeneratorBuilder AddRole(string role)
             => this.AddClaim("role", role);
 
+        public TokenGeneratorBuilder AddClaimIssuer(string value, string type = JwtRegisteredClaimNames.Iss)
+            => this.AddClaim(type, value);
+
         public TokenGeneratorBuilder AddClaimEmail(string value, string type = JwtRegisteredClaimNames.Email)
             => this.AddClaim(type, value);
 
@@ -116,8 +119,11 @@ namespace Phoesion.DevJwt
             var key = new SymmetricSecurityKey(TokenGenerator.GetSigningKeyBufferFromString(_signingkey ?? DevJwtDefaults.DefaultSigningKey));
             var _credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+            //check if issuer is set in claims
+            var hasIssuer = Claims?.Any(c => c.Type == JwtRegisteredClaimNames.Iss) ?? false;
+
             //create security token
-            var token = new JwtSecurityToken(issuer: DevJwtDefaults.Issuer,
+            var token = new JwtSecurityToken(issuer: !hasIssuer ? DevJwtDefaults.Issuer : null,
                                              audience: _audience,
                                              claims: Claims,
                                              expires: DateTime.UtcNow + (_expire_time ?? TimeSpan.FromDays(365)),

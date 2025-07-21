@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace SampleGlowMicroservice.Modules
 {
-    [AuthorizeJWT]
+    [Authorize]
     public class SampleModule1 : FireflyModule
     {
         //Notes: test using url http://localhost/SampleService1/SampleModule1/DoTheThing?input=somevalue

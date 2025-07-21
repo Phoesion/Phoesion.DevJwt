@@ -49,7 +49,7 @@ namespace Phoesion.DevJwt
                     ValidateIssuer = Options.ValidateIssuer,
                     ValidateLifetime = Options.ValidateLifetime,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Options.SigningKey)),
-                    ValidIssuer = DevJwtDefaults.Issuer,
+                    ValidIssuer = Options.ClaimsIssuer ?? DevJwtDefaults.Issuer,
                     ValidAudience = Options.Audience,
                 },
                 out token);
